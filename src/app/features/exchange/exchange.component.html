@@ -1,0 +1,24 @@
+<div class="theme-container">
+  <div class="theme-btns flex align-items-center justify-content-between mb-4">
+    <a (click)="changeTheme('md-light-indigo')" class="mr-3 cursor-pointer">
+      <button pButton pRipple type="button" label="Light"></button>
+    </a>
+    <a (click)="changeTheme('md-dark-indigo')" class="mr-3 cursor-pointer">
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Dark"
+        class="p-button-secondary"
+      ></button>
+    </a>
+  </div>
+</div>
+
+<app-converter-exchange-table
+  [dataList]="exchangeRates"
+  [loading]="loading"
+  [errorMessage]="errorMessage"
+  (dateChangeEvent)="onDateValueChange($event)"
+  (dataTableSelectionChangeEvent)="dataTableSelectionChangeEvent($event)"
+></app-converter-exchange-table>
