@@ -15,8 +15,16 @@
   </div>
 </div>
 
-<app-converter-exchange-table
+<!-- <app-converter-exchange-table
   [dataList]="exchangeRates"
+  [loading]="loading"
+  [errorMessage]="errorMessage"
+  (dateChangeEvent)="onDateValueChange($event)"
+  (dataTableSelectionChangeEvent)="dataTableSelectionChangeEvent($event)"
+></app-converter-exchange-table> -->
+
+<app-converter-exchange-table
+  [dataList]="(exchangeRates$ | async) ?? []"
   [loading]="loading"
   [errorMessage]="errorMessage"
   (dateChangeEvent)="onDateValueChange($event)"

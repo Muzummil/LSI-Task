@@ -1,17 +1,18 @@
-import { Subscription } from 'rxjs';
-import { LazyLoadEvent } from 'primeng/api';
-import { DatePipe } from '@angular/common';
-import { ExchangeService } from 'src/app/shared/services/exchange.service';
-import { Component, OnInit } from '@angular/core';
-import { ExchangeRates, Rate } from 'src/app/shared/interfaces/exchange';
-import { ThemeService } from 'src/app/shared/services/theme.service';
+import { Subscription, Observable } from "rxjs";
+import { LazyLoadEvent } from "primeng/api";
+import { DatePipe } from "@angular/common";
+import { ExchangeService } from "src/app/shared/services/exchange.service";
+import { Component, OnInit } from "@angular/core";
+import { ExchangeRates, Rate } from "src/app/shared/interfaces/exchange";
+import { ThemeService } from "src/app/shared/services/theme.service";
 
 @Component({
-  selector: 'app-exchange',
-  templateUrl: './exchange.component.html',
+  selector: "app-exchange",
+  templateUrl: "./exchange.component.html",
 })
 export class ExchangeComponent implements OnInit {
   public exchangeRates: Rate[] = [];
+  public exchangeRates$: Observable<Rate[]>;
   public loading: boolean = false;
   private subscription: Subscription = new Subscription();
   errorMessage: string | null = null;
@@ -22,8 +23,13 @@ export class ExchangeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.changeTheme('md-light-indigo');
-    this.getExchangeRates();
+    this.changeTheme("md-light-indigo");
+    // this.getExchangeRates();
+    this.assignDataObs();
+  }
+
+  private assignDataObs(): void {
+    this.exchangeRates$ = this.exchangeService.getExchangeRatesObs();
   }
 
   changeTheme(theme: string) {
@@ -64,7 +70,7 @@ export class ExchangeComponent implements OnInit {
   }
 
   parseDate(dateValue: Date): string | null {
-    return this.datepipe.transform(dateValue, 'YYYY-MM-dd');
+    return this.datepipe.transform(dateValue, "YYYY-MM-dd");
   }
 
   ngOnDestroy(): void {
