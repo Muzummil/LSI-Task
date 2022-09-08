@@ -15,18 +15,17 @@
   </div>
 </div>
 
-<!-- <app-converter-exchange-table
-  [dataList]="exchangeRates"
-  [loading]="loading"
-  [errorMessage]="errorMessage"
-  (dateChangeEvent)="onDateValueChange($event)"
-  (dataTableSelectionChangeEvent)="dataTableSelectionChangeEvent($event)"
-></app-converter-exchange-table> -->
-
-<app-converter-exchange-table
-  [dataList]="(exchangeRates$ | async) ?? []"
-  [loading]="loading"
-  [errorMessage]="errorMessage"
-  (dateChangeEvent)="onDateValueChange($event)"
-  (dataTableSelectionChangeEvent)="dataTableSelectionChangeEvent($event)"
-></app-converter-exchange-table>
+<ng-container
+  *ngIf="{
+    exchangeRatesArr: exchangeRates$ | async,
+    exchangeRatesError: exchangeRatesError$ | async
+  } as vm"
+>
+  <app-converter-exchange-table
+    [dataList]="vm.exchangeRatesArr ?? []"
+    [loading]="!vm.exchangeRatesArr"
+    [errorMessage]="vm.exchangeRatesError"
+    (dateChangeEvent)="onDateValueChange($event)"
+    (dataTableSelectionChangeEvent)="dataTableSelectionChangeEvent($event)"
+  ></app-converter-exchange-table>
+</ng-container>

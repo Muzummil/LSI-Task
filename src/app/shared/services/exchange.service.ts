@@ -10,18 +10,6 @@ export class ExchangeService {
   private API_BASE_URL: string = environment.baseAPIURL;
   constructor(private http: HttpClient) {}
 
-  getExchangeRates(
-    dateFilterValue: string | null = null
-  ): Observable<ExchangeRates[]> {
-    // const apiURL = this.API_BASE_URL + 'exchangerates/tables/A/' + (dateFilterValue ? dateFilterValue : '');
-    const apiURL =
-      "assets/exchange-rates.json?" + (dateFilterValue ? dateFilterValue : "");
-    return this.http.get<ExchangeRates[]>(apiURL);
-    // return this.http.get<ExchangeRates[]>(
-    //   this.API_BASE_URL + 'exchangerates/tables/A/?format=json'
-    // );
-  }
-
   getExchangeRatesObs(
     dateFilterValue: string | null = null
   ): Observable<Rate[]> {
@@ -30,13 +18,8 @@ export class ExchangeService {
       "assets/exchange-rates.json?" + (dateFilterValue ? dateFilterValue : "");
     return this.http.get<ExchangeRates[]>(apiURL).pipe(
       map((value: ExchangeRates[]) => value[0].rates),
-      take(2),
+      take(1),
       shareReplay()
     );
-
-    // .pipe(map(1)).subscribe((res: any)=> res[0]);
-    // return this.http.get<ExchangeRates[]>(
-    //   this.API_BASE_URL + 'exchangerates/tables/A/?format=json'
-    // );
   }
 }
